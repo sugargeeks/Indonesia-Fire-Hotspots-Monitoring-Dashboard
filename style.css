@@ -1,0 +1,209 @@
+/* ============================================================
+   style.css — Indonesia Fire Hotspots Dashboard
+   Supplemental styles for components not easily covered
+   by Tailwind utility classes alone.
+   Author: Siti Nurlia Kilmas
+   ============================================================ */
+
+/* ---- Base / Body ---- */
+body {
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+}
+
+/* ---- Dashboard Cards ---- */
+.dashboard-card {
+  background: #111827;          /* gray-900 */
+  border: 1px solid #1f2937;    /* gray-800 */
+  border-radius: 0.875rem;      /* 14px */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.5);
+  border-color: #374151;        /* gray-700 */
+}
+
+/* KPI card accent bar on the left */
+.kpi-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #f97316, #dc2626); /* fire orange → red */
+  border-radius: 4px 0 0 4px;
+}
+
+/* ---- Chart Title ---- */
+.chart-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #e5e7eb;               /* gray-200 */
+  letter-spacing: 0.01em;
+}
+
+/* ---- Chart Container ---- */
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+
+/* ---- Filter Selects ---- */
+.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #1f2937;    /* gray-800 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  color: #f3f4f6;               /* gray-100 */
+  border: 1px solid #374151;    /* gray-700 */
+  border-radius: 0.5rem;
+  padding: 0.4rem 2rem 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  min-width: 140px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #21969a;        /* teal-600 */
+  box-shadow: 0 0 0 2px rgba(33, 150, 154, 0.25);
+}
+
+.filter-select:hover {
+  border-color: #4b5563;        /* gray-600 */
+}
+
+/* ---- Trend Mode Buttons ---- */
+.trend-btn {
+  padding: 0.3rem 0.9rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid #374151;    /* gray-700 */
+  background: transparent;
+  color: #9ca3af;               /* gray-400 */
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.trend-btn:hover {
+  background: #1f2937;
+  color: #f3f4f6;
+}
+
+.trend-btn.active {
+  background: #155e5f;          /* teal-800 */
+  border-color: #21969a;        /* teal-600 */
+  color: #ffffff;
+}
+
+/* ---- Table Styles ---- */
+#rankingTable th,
+#rankingTable td {
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  white-space: nowrap;
+}
+
+#rankingTable tbody tr {
+  transition: background 0.15s;
+}
+
+#rankingTable tbody tr:hover {
+  background: rgba(21, 94, 95, 0.15);  /* teal highlight */
+}
+
+/* Province rank bar in table */
+.rank-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+}
+
+.rank-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, #f97316, #dc2626);
+  min-width: 2px;
+  transition: width 0.4s ease;
+}
+
+/* ---- Scrollbar (Webkit) ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+/* ---- Responsive chart canvas ---- */
+canvas {
+  max-width: 100%;
+}
+
+/* ---- Loading spinner overlay ---- */
+#loadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: #030712;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.4s ease;
+}
+
+#loadingOverlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #1f2937;
+  border-top: 4px solid #f97316;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Animate KPI numbers on update ---- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.kpi-animate {
+  animation: fadeInUp 0.3s ease both;
+}
+
+/* ---- Mobile Utilities ---- */
+@media (max-width: 640px) {
+  .filter-select { min-width: 120px; }
+  .chart-title   { font-size: 0.78rem; }
+}
